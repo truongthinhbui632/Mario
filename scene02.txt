@@ -27,7 +27,7 @@ brick.txt
 4	160	100
 4	180	100
 
-#Platform
+#Platform	x	y	width	height	length	begin	middle	end
 5	100	180	16	15	32	20001	52000	20001
 
 #Portal 

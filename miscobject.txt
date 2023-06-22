@@ -1,0 +1,7 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#bush
+70001	732	51	747	66	30	
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+70000	70001	1000

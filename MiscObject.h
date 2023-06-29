@@ -7,8 +7,11 @@
 #define BBOX_WIDTH 16
 #define BBOX_HEIGHT 16
 class CMiscObject : public CGameObject{
+protected:
+	int id_misc;
 public:
-	CMiscObject(float x, float y) :CGameObject(x, y) {
+	CMiscObject(float x, float y, int id) :CGameObject(x, y) {
+		this->id_misc = id;
 	}
 	int IsBlocking() { return 0; };
 	void Render();

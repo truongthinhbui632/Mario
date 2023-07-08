@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "MiscObject.h"
 #include "PanelPlatform.h"
+#include "QuestionBrick.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -162,6 +163,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_QUESTIONBRICK: obj = new CQuestionBrick(x, y); break;
 
 	case OBJECT_TYPE_PORTAL:
 	{

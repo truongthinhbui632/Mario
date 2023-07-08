@@ -93,6 +93,9 @@
     <ClInclude Include="PanelPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuestionBrick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -159,6 +162,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="PanelPlatform.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestionBrick.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

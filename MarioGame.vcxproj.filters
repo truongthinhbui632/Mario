@@ -90,6 +90,9 @@
     <ClInclude Include="MiscObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PanelPlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -153,6 +156,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="MiscObject.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelPlatform.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

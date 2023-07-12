@@ -3,8 +3,23 @@
 void CQuestionBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_QUESTIONBRICK)->Render(x, y);
+	int aniId = -1;
+	if (state == ID_ANI_QUESTIONBRICK)
+		aniId = ID_ANI_QUESTIONBRICK;
+	else if (state == ID_ANI_QUESTIONBRICKBREAK)
+		aniId = ID_ANI_QUESTIONBRICK;
+	animations->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
+}
+
+void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+void CQuestionBrick::SetState(int state)
+{
+	CGameObject::SetState(state);
 }
 
 void CQuestionBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

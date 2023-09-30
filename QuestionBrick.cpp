@@ -7,7 +7,7 @@ void CQuestionBrick::Render()
 	if (state == ID_ANI_QUESTIONBRICK)
 		aniId = ID_ANI_QUESTIONBRICK;
 	else if (state == ID_ANI_QUESTIONBRICKBREAK)
-		aniId = ID_ANI_QUESTIONBRICK;
+		aniId = ID_ANI_QUESTIONBRICKBREAK;
 	animations->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 }

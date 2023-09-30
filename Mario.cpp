@@ -102,11 +102,16 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
 	CQuestionBrick* qbrick = dynamic_cast<CQuestionBrick*>(e->obj);
-	if (e->ny < 0) 
+	int idvc = qbrick->GetState();
+	if (e->ny > 0) 
 	{
-		if (qbrick->GetState() != ID_ANI_QUESTIONBRICK)
+		DebugOut(L">>> Va cham gach >>> \n");
+		DebugOut(L">>> state: %d >>> \n", idvc);
+		if (idvc == ID_ANI_QUESTIONBRICK)
 		{
 			qbrick->SetState(ID_ANI_QUESTIONBRICKBREAK);
+			idvc = qbrick->GetState();
+			DebugOut(L">>> state sau va cham : %d >>> \n", idvc);
 		}
 	}
 }

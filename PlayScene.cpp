@@ -12,6 +12,7 @@
 #include "MiscObject.h"
 #include "PanelPlatform.h"
 #include "QuestionBrick.h"
+#include "Piranhaplant.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -165,6 +166,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_QUESTIONBRICK: obj = new CQuestionBrick(x, y); break;
 
+	case  OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaplant(x, y); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

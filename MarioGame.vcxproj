@@ -158,6 +158,7 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MiscObject.h" />
     <ClInclude Include="PanelPlatform.h" />
+    <ClInclude Include="Piranhaplant.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MiscObject.cpp" />
     <ClCompile Include="PanelPlatform.cpp" />
+    <ClCompile Include="Piranhaplant.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />

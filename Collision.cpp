@@ -7,7 +7,7 @@
 
 int CCollisionEvent::WasCollided() {
 	//return t >= 0.0f && t <= 1.0f;
-	return	t >= 0.0f && t <= 1.0f && obj->IsDirectionColliable(nx, ny) == 1;
+	return	t >= 0.0f && t <= 1.0f && obj->IsDirectionColliable(nx, ny) == 1 && obj->isBypass(src_obj) == 1;
 }
 
 CCollision* CCollision::__instance = NULL;
@@ -142,7 +142,7 @@ LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJE
 	// NOTE: new m speed = original m speed - collide object speed
 	// 
 	float dx = mdx - sdx;
-	float dy = mdy - sdy;
+	float dy = mdy - sdy;	
 
 	objSrc->GetBoundingBox(ml, mt, mr, mb);
 	objDest->GetBoundingBox(sl, st, sr, sb);

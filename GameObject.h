@@ -68,6 +68,10 @@ public:
 	// Is this object collide with other object at certain direction ( like ColorBox )
 	virtual int IsDirectionColliable(float nx, float ny) { return 1; }
 
+	virtual int isNoBypass() { return 1; }
+
+	virtual int isBypass(LPGAMEOBJECT obj) { return 1; }
+
 	~CGameObject();
 
 	static bool IsDeleted(const LPGAMEOBJECT &o) { return o->isDeleted; }

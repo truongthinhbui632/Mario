@@ -26,5 +26,7 @@ public:
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsDirectionColliable(float nx, float ny);
+	int isNoBypass() { return 0; };
+	int isBypass(LPGAMEOBJECT src_obj);
 	void RenderBoundingBox();
 };

@@ -60,3 +60,7 @@ int CPanelPlatform::IsDirectionColliable(float nx, float ny)
 	if (nx == 0 && ny == -1) return 1;
 	else return 0;
 }
+int CPanelPlatform::isBypass(LPGAMEOBJECT src_obj)
+{
+	return this->isNoBypass() + src_obj->isNoBypass();
+}

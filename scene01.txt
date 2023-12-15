@@ -8,6 +8,7 @@ cloud.txt
 platfrom.txt
 miscobject.txt
 piranhaplant.txt
+koopa.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -245,6 +246,9 @@ piranhaplant.txt
 2	250	10
 2	650	10
 2	800	20
+
+#Koopa
+3	650	20
 
 #PanelPlatform
 7	250	142	8	2	6	60011	60011	60011

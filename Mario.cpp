@@ -52,7 +52,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
-	else if (dynamic_cast<CKoopa*>(e->obj))
+	else if (dynamic_cast<CKoopa*>(e->obj) && e->obj->GetState() != KOOPA_STATE_DIE)
 		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
@@ -100,8 +100,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-
-	// jump on top >> kill Goomba and deflect a bit 
+	DebugOut(L">>> va cham voi koopa o dang %d>>> \n",koopa->GetState());
+	// jump on top >> kill Koopa and deflect a bit 
 	if (e->ny < 0)
 	{
 		if (koopa->GetState() != KOOPA_STATE_DIE)
@@ -109,12 +109,15 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
+		else if(koopa->GetState() == KOOPA_STATE_DIE)
+		{
+		}
 	}
-	else // hit by Goomba
+	else // hit by Koopa
 	{
 		if (untouchable == 0)
 		{
-			if (koopa->GetState() != GOOMBA_STATE_DIE)
+			if (koopa->GetState() != KOOPA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -129,9 +132,9 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			}
 		}
 	}
-	if (e->nx != 0 && koopa->GetState() == KOOPA_STATE_DIE)
+	if (koopa->GetState() == KOOPA_STATE_DIE)
 	{
-		DebugOut(L">>> cham vo rua >>> \n");
+		DebugOut(L">>> lam viec voi vo rua >>> \n");
 	}
 }
 

@@ -3,7 +3,7 @@
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
-
+#define KOOPA_SPINNING_SPEED 0.05f
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 26
@@ -14,10 +14,12 @@
 #define KOOPA_STATE_WALKING_LEFT 100
 #define KOOPA_STATE_WALKING_RIGHT 200
 #define KOOPA_STATE_DIE 300
+#define KOOPA_STATE_SPIN 400
 
 #define ID_ANI_KOOPA_WALKING_LEFT 7000
 #define ID_ANI_KOOPA_WALKING_RIGHT 7001
 #define ID_ANI_KOOPA_DIE 7002
+#define ID_ANI_KOOPA_SPIN 7004
 
 class CKoopa : public CGameObject
 {
@@ -28,6 +30,7 @@ protected:
 	ULONGLONG die_start;
 
 	int shell;
+	int direction;
 	int revive;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -35,7 +38,7 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return shell; }
+	virtual int IsBlocking() { return shell; };
 
 	virtual void ChangeDirection();
 
@@ -45,4 +48,5 @@ protected:
 public:
 	CKoopa(float x, float y);
 	virtual void SetState(int state);
+	virtual void setDirection(int direction) { this->direction = direction; };
 };

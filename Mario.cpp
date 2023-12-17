@@ -54,6 +54,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopa*>(e->obj) && e->obj->GetState() != KOOPA_STATE_DIE)
 		OnCollisionWithKoopa(e);
+	else if((dynamic_cast<CKoopa*>(e->obj) && e->obj->GetState() == KOOPA_STATE_DIE))
+		OnCollisionWithKoopa(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
@@ -134,7 +136,18 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	}
 	if (koopa->GetState() == KOOPA_STATE_DIE)
 	{
-		DebugOut(L">>> lam viec voi vo rua >>> \n");
+		if (e->nx > 0)
+		{
+			int direction = -1;
+			koopa->setDirection(direction);
+			koopa->SetState(KOOPA_STATE_SPIN);
+			DebugOut(L">>> day rua >>> \n");
+		}
+		if (e->nx < 0)
+		{
+			koopa->SetState(KOOPA_STATE_SPIN);
+			DebugOut(L">>> day rua >>> \n");
+		}
 	}
 }
 

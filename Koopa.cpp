@@ -11,11 +11,12 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	SetState(KOOPA_STATE_WALKING_LEFT);
 	shell = 0;
 	revive = 0;
+	direction = 1;
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPA_STATE_DIE)
+	if (state == KOOPA_STATE_DIE || state == KOOPA_STATE_SPIN)
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - KOOPA_BBOX_HEIGHT_DIE / 2;
@@ -54,7 +55,14 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0 )
 	{
-		ChangeDirection();
+		if (state != KOOPA_STATE_SPIN)
+		{
+			ChangeDirection();
+		}
+		else
+		{
+			vx = -vx;
+		}
 	}
 }
 void CKoopa::ChangeDirection() 
@@ -70,6 +78,7 @@ void CKoopa::ChangeDirection()
 		DebugOut(L">>> di trai >>> \n");
 	}
 }
+
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	/*if (state != KOOPA_STATE_DIE)
@@ -109,6 +118,11 @@ void CKoopa::Render()
 		aniId = ID_ANI_KOOPA_WALKING_RIGHT;
 	}
 
+	else if (state == KOOPA_STATE_SPIN)
+	{
+		aniId = ID_ANI_KOOPA_SPIN;
+	}
+
 	else if (state == KOOPA_STATE_DIE)
 	{
 		aniId = ID_ANI_KOOPA_DIE;
@@ -137,6 +151,10 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_WALKING_RIGHT:
 		vx = KOOPA_WALKING_SPEED;
+		break;
+	case KOOPA_STATE_SPIN:
+		vx = KOOPA_SPINNING_SPEED;
+		ay = KOOPA_GRAVITY;
 		break;
 	}
 

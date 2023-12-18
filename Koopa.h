@@ -2,8 +2,9 @@
 #include "GameObject.h"
 
 #define KOOPA_GRAVITY 0.002f
+#define KOOPA_SPINNING 0.0002f
 #define KOOPA_WALKING_SPEED 0.05f
-#define KOOPA_SPINNING_SPEED 0.05f
+#define KOOPA_SPINNING_SPEED 0.1f
 
 #define KOOPA_BBOX_WIDTH 16
 #define KOOPA_BBOX_HEIGHT 26

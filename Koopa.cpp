@@ -62,6 +62,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else
 		{
 			vx = -vx;
+			ax = 0;
 		}
 	}
 }
@@ -140,10 +141,10 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_DIE:
 		//shell_start = GetTickCount64();
 		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2;
-		vx = 0;
-		vy = 0;
-		ay = 0;
-		ax = 0;
+		//vx = 0;
+		//vy = 0;
+		//ay = 0;
+		//ax = 0;
 		shell = 1;
 		break;
 	case KOOPA_STATE_WALKING_LEFT:
@@ -153,8 +154,8 @@ void CKoopa::SetState(int state)
 		vx = KOOPA_WALKING_SPEED;
 		break;
 	case KOOPA_STATE_SPIN:
-		vx = KOOPA_SPINNING_SPEED;
-		ay = KOOPA_GRAVITY;
+		vx = KOOPA_SPINNING_SPEED*direction;
+		//ax = KOOPA_SPINNING;
 		break;
 	}
 

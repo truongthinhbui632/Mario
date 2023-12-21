@@ -24,7 +24,7 @@ protected:
 
 	virtual int IsCollidable() { return 1; };
 	virtual void OnNoCollision(DWORD dt);
-	virtual int isNoBypass() { return 0; };
+	//virtual int isNoBypass() { return 0; };
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	//virtual void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 

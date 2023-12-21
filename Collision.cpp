@@ -7,7 +7,7 @@
 
 int CCollisionEvent::WasCollided() {
 	//return t >= 0.0f && t <= 1.0f;
-	return	t >= 0.0f && t <= 1.0f && obj->IsDirectionColliable(nx, ny) == 1 && obj->isBypass(src_obj) == 1;
+	return	t >= 0.0f && t <= 1.0f && obj->IsDirectionColliable(nx, ny) == 1 /*&& obj->isBypass(src_obj) == 1*/;
 }
 
 CCollision* CCollision::__instance = NULL;

@@ -31,7 +31,7 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - KOOPA_BBOX_HEIGHT / 2;
 		right = left + KOOPA_BBOX_WIDTH;
-		bottom = top + KOOPA_BBOX_HEIGHT-1;
+		bottom = top + KOOPA_BBOX_HEIGHT;
 	}
 }
 
@@ -56,7 +56,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vy = 0;
 	}
-	if (e->nx != 0 && e->obj->IsBlocking())
+	else if (e->nx != 0)
 	{
 		if (state != KOOPA_STATE_SPIN)
 		{
@@ -65,7 +65,6 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else
 		{
 			vx = -vx;
-			ax = 0;
 		}
 	}
 }
@@ -112,6 +111,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != KOOPA_STATE_DIE)
 	{
 		vy += ay * dt;
+		DebugOut(L">>> ay:%f >>> \n",ay);
 		vx += ax * dt;
 		CGameObject::Update(dt, coObjects);
 		CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -170,10 +170,6 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_DIE:
 		shell_start = GetTickCount64();
 		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2;
-		//vx = 0;
-		//vy = 0;
-		//ay = 0;
-		//ax = 0;
 		shell = 1;
 		break;
 	case KOOPA_STATE_WALKING_LEFT:
@@ -184,7 +180,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_SPIN:
 		vx = KOOPA_SPINNING_SPEED*direction;
-		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2;
+		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2 - 6;
 		//ax = KOOPA_SPINNING;
 		break;
 	}

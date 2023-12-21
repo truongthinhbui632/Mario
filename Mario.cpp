@@ -56,7 +56,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CKoopa*>(e->obj) && e->obj->GetState() != KOOPA_STATE_DIE)
 		OnCollisionWithKoopa(e);
 	else if((dynamic_cast<CKoopa*>(e->obj) && e->obj->GetState() == KOOPA_STATE_DIE))
-		OnCollisionWithKoopa(e);
+		OnCollisionWithKoopaShell(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
@@ -138,16 +138,37 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			}
 		}
 	}
-	if (koopa->GetState() == KOOPA_STATE_DIE)
+}
+
+void CMario::OnCollisionWithKoopaShell(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+	if (e->ny < 0)
 	{
-		if (e->nx > 0)
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+		if (nx < 0)
 		{
 			int direction = -1;
 			koopa->setDirection(direction);
 			koopa->SetState(KOOPA_STATE_SPIN);
 			DebugOut(L">>> day rua phia trai >>> \n");
 		}
-		if (e->nx < 0)
+		if (nx > 0)
+		{
+			koopa->SetState(KOOPA_STATE_SPIN);
+			DebugOut(L">>> day rua phia phai>>> \n");
+		}
+	}
+	else
+	{
+		if (nx > 0)
+		{
+			int direction = -1;
+			koopa->setDirection(direction);
+			koopa->SetState(KOOPA_STATE_SPIN);
+			DebugOut(L">>> day rua phia trai >>> \n");
+		}
+		if (nx < 0)
 		{
 			koopa->SetState(KOOPA_STATE_SPIN);
 			DebugOut(L">>> day rua phia phai>>> \n");
@@ -320,7 +341,7 @@ void CMario::Render()
 
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
 }

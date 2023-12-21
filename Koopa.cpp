@@ -7,11 +7,13 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = KOOPA_GRAVITY;
-	die_start = -1;
+	shell_start = -1;
 	SetState(KOOPA_STATE_WALKING_LEFT);
 	shell = 0;
-	revive = 0;
 	direction = 1;
+	revive = 0;
+	state_revive = KOOPA_STATE_WALKING_LEFT;
+	y_save = y;
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -20,6 +22,7 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - KOOPA_BBOX_HEIGHT_DIE / 2;
+		//top = y + (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2 - KOOPA_BBOX_HEIGHT_DIE / 2;
 		right = left + KOOPA_BBOX_WIDTH;
 		bottom = top + KOOPA_BBOX_HEIGHT_DIE;
 	}
@@ -35,25 +38,25 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void CKoopa::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
+	float vy_before = vy;
+	if (vy_before < vy) DebugOut(L">>> bị rớt >>> \n");
 	y += vy * dt;
 };
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (dynamic_cast<CGoomba*>(e->obj))
-	{
-		//DebugOut(L">>> va cham goomba>>> \n");
-		//ChangeDirection();
-		return;
-	};
 	if (!e->obj->IsBlocking()) return;
 
 	if (dynamic_cast<CKoopa*>(e->obj)) return;
+	if (dynamic_cast<CGoomba*>(e->obj))
+	{
+		OnCollisionWithGoomba(e);
+	};
 	if (e->ny != 0)
 	{
 		vy = 0;
 	}
-	else if (e->nx != 0 )
+	if (e->nx != 0 && e->obj->IsBlocking())
 	{
 		if (state != KOOPA_STATE_SPIN)
 		{
@@ -66,6 +69,23 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 	}
 }
+
+void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (state != KOOPA_STATE_SPIN)
+	{
+		//ChangeDirection();
+	}
+	else
+	{
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		{
+			goomba->SetState(GOOMBA_STATE_DIE);
+		}
+	}
+}
+
 void CKoopa::ChangeDirection() 
 {
 	if (state == KOOPA_STATE_WALKING_LEFT)
@@ -96,11 +116,17 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CGameObject::Update(dt, coObjects);
 		CCollision::GetInstance()->Process(this, dt, coObjects);
 	}
-	/*if ((state == KOOPA_STATE_DIE) && (GetTickCount64() - shell_start > KOOPA_DIE_TIMEOUT))
+	if ((state == KOOPA_STATE_DIE) && (GetTickCount64() - shell_start > KOOPA_DIE_TIMEOUT-1000))
 	{
-		isDeleted = true;
+		revive = 1;
+	}
+	if ((state == KOOPA_STATE_DIE) && (GetTickCount64() - shell_start > KOOPA_DIE_TIMEOUT))
+	{
+		y = y_save;
+		SetState(state_revive);
+		revive = 0;
 		return;
-	}*/
+	}
 
 }
 
@@ -126,7 +152,10 @@ void CKoopa::Render()
 
 	else if (state == KOOPA_STATE_DIE)
 	{
-		aniId = ID_ANI_KOOPA_DIE;
+		if (revive == 1)
+			aniId = ID_ANI_KOOPA_REVIVE;
+		else
+			aniId = ID_ANI_KOOPA_DIE;
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -139,7 +168,7 @@ void CKoopa::SetState(int state)
 	switch (state)
 	{
 	case KOOPA_STATE_DIE:
-		//shell_start = GetTickCount64();
+		shell_start = GetTickCount64();
 		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2;
 		//vx = 0;
 		//vy = 0;
@@ -155,8 +184,20 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_SPIN:
 		vx = KOOPA_SPINNING_SPEED*direction;
+		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2;
 		//ax = KOOPA_SPINNING;
 		break;
 	}
 
+}
+
+void CKoopa::SetIsDeleted(bool xoa) 
+{
+	isDeleted = xoa;
+}
+
+void CKoopa::SetStateBeforeShell(int state_revive, int y_save)
+{
+	this->state_revive = state_revive;
+	this->y_save = y_save;
 }

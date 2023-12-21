@@ -35,6 +35,7 @@ void CMario::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
+	//DebugOut(L">>> x:%f, y:%f >>> \n",x , y);
 }
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -106,13 +107,16 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	// jump on top >> kill Koopa and deflect a bit 
 	if (e->ny < 0)
 	{
+		if (koopa->GetState() == KOOPA_STATE_SPIN)
+		{
+			DebugOut(L">>> kill koopa %d>>> \n", koopa->GetState());
+			koopa->SetIsDeleted(true);
+		}
 		if (koopa->GetState() != KOOPA_STATE_DIE)
 		{
+			koopa->SetStateBeforeShell(koopa->GetState(), koopa->getY());
 			koopa->SetState(KOOPA_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
-		}
-		else if(koopa->GetState() == KOOPA_STATE_DIE)
-		{
 		}
 	}
 	else // hit by Koopa
@@ -141,12 +145,12 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			int direction = -1;
 			koopa->setDirection(direction);
 			koopa->SetState(KOOPA_STATE_SPIN);
-			DebugOut(L">>> day rua >>> \n");
+			DebugOut(L">>> day rua phia trai >>> \n");
 		}
 		if (e->nx < 0)
 		{
 			koopa->SetState(KOOPA_STATE_SPIN);
-			DebugOut(L">>> day rua >>> \n");
+			DebugOut(L">>> day rua phia phai>>> \n");
 		}
 	}
 }

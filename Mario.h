@@ -131,6 +131,7 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
+		objectType = 0;
 
 		level = MARIO_LEVEL_BIG;
 		untouchable = 0;

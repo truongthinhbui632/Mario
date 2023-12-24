@@ -27,6 +27,7 @@ protected:
 	int nx;	 
 
 	int state;
+	int objectType;
 
 	bool isDeleted; 
 
@@ -37,6 +38,8 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
+	int GetObjectType() { return this->objectType; }
+
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
 

@@ -7,6 +7,7 @@ CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	die_start = -1;
+	objectType = 2;
 	SetState(GOOMBA_STATE_WALKING);
 }
 

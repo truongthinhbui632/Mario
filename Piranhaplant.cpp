@@ -1,11 +1,13 @@
 #include "Piranhaplant.h"
 #include "debug.h"
 #include "PanelPlatform.h"
+#include "Mario.h"
 
 CPiranhaplant::CPiranhaplant(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
+	objectType = 9;
 }
 
 void CPiranhaplant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -42,6 +44,12 @@ void CPiranhaplant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (y > 145) vy +=ay*dt;
 	else vy -= ay * dt;
+
+	//for (UINT i = 0; i < coObjects->size(); i++)
+	//{
+		//if(coObjects->at(i)==)
+	//}
+	//CMario* mario = dynamic_cast<CMario*>(e->obj);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

@@ -111,7 +111,6 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != KOOPA_STATE_DIE)
 	{
 		vy += ay * dt;
-		DebugOut(L">>> ay:%f >>> \n",ay);
 		vx += ax * dt;
 		CGameObject::Update(dt, coObjects);
 		CCollision::GetInstance()->Process(this, dt, coObjects);

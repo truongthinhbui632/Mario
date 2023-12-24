@@ -12,7 +12,9 @@
 
 class CCoin : public CGameObject {
 public:
-	CCoin(float x, float y) : CGameObject(x, y) {}
+	CCoin(float x, float y) : CGameObject(x, y) {
+		objectType = 4;
+	}
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);

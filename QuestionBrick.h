@@ -6,6 +6,7 @@ class CQuestionBrick : public CBrick {
 public:
 	CQuestionBrick(float x, float y) : CBrick(x, y) { 
 		state = ID_ANI_QUESTIONBRICK;
+		objectType = 8;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

@@ -14,6 +14,7 @@
 #include "QuestionBrick.h"
 #include "Piranhaplant.h"
 #include "Koopa.h"
+#include "Fireball.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -169,6 +170,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTIONBRICK: obj = new CQuestionBrick(x, y); break;
 
 	case  OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaplant(x, y); break;
+
+	case  OBJECT_TYPE_FIREBALL: obj = new CFireball(x, y); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -295,20 +298,36 @@ void CPlayScene::Update(DWORD dt)
 			{
 				CPiranhaplant* pplant = dynamic_cast<CPiranhaplant*>(object);
 				pplant->ComparePlayerPosToSelf(mario);
-				if (pplant->GetX() - mario->GetX() < 0.0f)
+				int x_plant = pplant->GetX();
+				int y_plant = pplant->GetY();
+				if (pplant->_isPlayerInRange == true)
 				{
-					pplant->SetState(PPLANT_LEFT);
-				}
-				else 
-				{
-					pplant->SetState(PPLANT_RIGHT);
+					if (x_plant - mario->GetX() < 0.0f)
+					{
+						pplant->SetState(PPLANT_LEFT);
+					}
+					else
+					{
+						pplant->SetState(PPLANT_RIGHT);
+					}
+					if (y_plant >= 126 && y_plant <= 145)
+					{
+						CFireball* fireball = new CFireball(x_plant, y_plant + 3);
+						DebugOut(L">>> tao ra fireball %f ,%f>>> \n", fireball->GetX(),fireball->GetY());
+						objects.push_back(fireball);
+					}
 				}
 				break;
 			}
 		}
 		object->Update(dt, &coObjects);
 	}
-
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		CGameObject* object = objects.at(i);
+		if(object->GetObjectType()==10)
+			DebugOut(L">>> tao ra fireball>>> \n");
+	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
@@ -383,4 +402,9 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+}
+
+void CPlayScene::AddObjectToScene(CGameObject* obj)
+{
+	objects.push_back(obj);
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "Mario.h"
+#include "Fireball.h"
+#include "PlayScene.h"
 
 #define PPLANT_GRAVITY 0.00002f
 #define PPLANT_SPEED 0.05f
@@ -21,9 +23,8 @@ protected:
 	float ay;
 	int maxheight = 32;
 
-	bool _isPlayerInRange;
 	RECT boundary;
-
+	//bool isfired;
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -38,7 +39,14 @@ protected:
 	//virtual void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 
 public:
+	bool _isPlayerInRange;
+
 	CPiranhaplant(float x, float y);
+
+	CFireball* CreateFireball(float x, float y);
+
 	virtual void SetState(int state);
+	//virtual void SetFire();
+	//virtual void GetFire();
 	virtual void ComparePlayerPosToSelf(CMario* mario);
 };

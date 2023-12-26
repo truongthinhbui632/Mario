@@ -8,13 +8,19 @@ CPiranhaplant::CPiranhaplant(float x, float y) :CGameObject(x, y)
 	this->ay = PPLANT_GRAVITY;
 	state = PPLANT_RIGHT;
 	//rect để check player 
-	boundary.left = x - PPLANT_BBOX_WIDTH * 1.5f;
+	boundary.left = x - PPLANT_BBOX_WIDTH * 5.0f;
 	boundary.top = y - PPLANT_BBOX_HEIGHT * 4.0;
-	boundary.right = x + PPLANT_BBOX_WIDTH * 2.0f;
+	boundary.right = x + PPLANT_BBOX_WIDTH * 5.0f;
 	boundary.bottom = y + PPLANT_BBOX_HEIGHT * 4.0f;
 
 	_isPlayerInRange = false;
 	objectType = 9;
+}
+
+CFireball* CPiranhaplant::CreateFireball(float x, float y)
+{
+	CFireball* obj = new CFireball(x, y);
+	return obj;
 }
 
 void CPiranhaplant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -44,6 +50,7 @@ void CPiranhaplant::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny <= 0)
 	{
 		vy = -vy;
+		DebugOut(L">>> di xuong : %f >>> \n", y);
 	}
 }
 
@@ -63,8 +70,16 @@ void CPiranhaplant::ComparePlayerPosToSelf(CMario* mario)
 
 void CPiranhaplant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (y > 145) vy +=ay*dt;
-	else vy -= ay * dt;
+	if (y > 145)
+	{
+		//DebugOut(L">>> Y luc doi chieu : %f >>> \n", y);
+		vy += ay * dt;
+	}
+	else
+	{
+		//DebugOut(L">>> ban o vi tri : %f >>> \n", y);
+		vy -= ay * dt;
+	}
 
 	//for (UINT i = 0; i < coObjects->size(); i++)
 	//{

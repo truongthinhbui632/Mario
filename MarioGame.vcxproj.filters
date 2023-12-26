@@ -102,6 +102,9 @@
     <ClInclude Include="Koopa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -177,6 +180,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Koopa.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

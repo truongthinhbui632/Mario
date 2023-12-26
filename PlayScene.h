@@ -12,6 +12,7 @@
 class CPlayScene: public CScene
 {
 protected: 
+	static CPlayScene* instance;
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
 
@@ -26,6 +27,7 @@ protected:
 	void LoadAssets(LPCWSTR assetFile);
 	
 public: 
+	CPlayScene();
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();
@@ -33,8 +35,16 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	LPGAMEOBJECT GetPlayer() { return player; }
+	virtual void AddObjectToScene(CGameObject* obj);
 
+	LPGAMEOBJECT GetPlayer() { return player; }
+	static CPlayScene* GetInstance() { 
+		if (instance == nullptr)
+		{
+			instance = new CPlayScene();
+		}
+		return instance; 
+	};
 	void Clear();
 	void PurgeDeletedObjects();
 

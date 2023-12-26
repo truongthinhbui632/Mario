@@ -72,11 +72,7 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (state != KOOPA_STATE_SPIN)
-	{
-		//ChangeDirection();
-	}
-	else
+	if (state == KOOPA_STATE_SPIN)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{

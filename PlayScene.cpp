@@ -265,6 +265,8 @@ void CPlayScene::Update(DWORD dt)
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
+	CMario* mario = NULL;
+
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -273,7 +275,38 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		CGameObject* object = objects.at(i);
+		if (object->GetObjectType()== OBJECT_TYPE_MARIO)
+		{
+			mario = dynamic_cast<CMario*>(object);
+			break;
+		}
+	}
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		CGameObject* object = objects.at(i);
+		
+		//objects[i]->Update(dt, &coObjects);
+
+		switch (object->GetObjectType())
+		{
+		case OBJECT_TYPE_PIRANHAPLANT:
+			{
+				CPiranhaplant* pplant = dynamic_cast<CPiranhaplant*>(object);
+				pplant->ComparePlayerPosToSelf(mario);
+				if (pplant->GetX() - mario->GetX() < 0.0f)
+				{
+					pplant->SetState(PPLANT_LEFT);
+				}
+				else 
+				{
+					pplant->SetState(PPLANT_RIGHT);
+				}
+				break;
+			}
+		}
+		object->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)

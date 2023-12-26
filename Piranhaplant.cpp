@@ -1,21 +1,28 @@
 #include "Piranhaplant.h"
 #include "debug.h"
 #include "PanelPlatform.h"
-#include "Mario.h"
 
 CPiranhaplant::CPiranhaplant(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
-	this->ay = GOOMBA_GRAVITY;
+	this->ay = PPLANT_GRAVITY;
+	state = PPLANT_RIGHT;
+	//rect để check player 
+	boundary.left = x - PPLANT_BBOX_WIDTH * 1.5f;
+	boundary.top = y - PPLANT_BBOX_HEIGHT * 4.0;
+	boundary.right = x + PPLANT_BBOX_WIDTH * 2.0f;
+	boundary.bottom = y + PPLANT_BBOX_HEIGHT * 4.0f;
+
+	_isPlayerInRange = false;
 	objectType = 9;
 }
 
 void CPiranhaplant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x - GOOMBA_BBOX_WIDTH/2;
-	top = y - GOOMBA_BBOX_HEIGHT/2;
-	right = left + GOOMBA_BBOX_WIDTH;
-	bottom = top + GOOMBA_BBOX_HEIGHT;
+	left = x - PPLANT_BBOX_WIDTH/2;
+	top = y - PPLANT_BBOX_HEIGHT/2;
+	right = left + PPLANT_BBOX_WIDTH;
+	bottom = top + PPLANT_BBOX_HEIGHT;
 }
 
 void CPiranhaplant::OnNoCollision(DWORD dt)
@@ -40,6 +47,20 @@ void CPiranhaplant::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
+void CPiranhaplant::ComparePlayerPosToSelf(CMario* mario)
+{
+	if (mario->GetX() >= boundary.left &&
+		mario->GetY() >= boundary.top &&
+		mario->GetX()<= boundary.right &&
+		mario->GetY() <= boundary.bottom)
+	{
+		_isPlayerInRange = true;
+	}
+	else {
+		_isPlayerInRange = false;
+	}
+}
+
 void CPiranhaplant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (y > 145) vy +=ay*dt;
@@ -57,7 +78,12 @@ void CPiranhaplant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPiranhaplant::Render()
 {
-	int aniId = ID_ANI_GOOMBA_WALKING;
+	int aniId = ID_ANI_PPLANT_RIGHT;
+
+	if (state == PPLANT_RIGHT)
+		aniId = ID_ANI_PPLANT_RIGHT;
+	else if (state == PPLANT_LEFT)
+		aniId = ID_ANI_PPLANT_LEFT;
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -65,4 +91,5 @@ void CPiranhaplant::Render()
 
 void CPiranhaplant::SetState(int state)
 {
+	CGameObject::SetState(state);
 }

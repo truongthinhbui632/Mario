@@ -1,14 +1,18 @@
 #pragma once
 #include "GameObject.h"
+#include "Mario.h"
 
-#define GOOMBA_GRAVITY 0.00002f
-#define GOOMBA_WALKING_SPEED 0.05f
+#define PPLANT_GRAVITY 0.00002f
+#define PPLANT_SPEED 0.05f
 
 
-#define GOOMBA_BBOX_WIDTH 16
-#define GOOMBA_BBOX_HEIGHT 32
+#define PPLANT_BBOX_WIDTH 16
+#define PPLANT_BBOX_HEIGHT 32
 
-#define ID_ANI_GOOMBA_WALKING 6000
+#define PPLANT_RIGHT 10
+#define PPLANT_LEFT 20
+#define ID_ANI_PPLANT_RIGHT 6001
+#define ID_ANI_PPLANT_LEFT 6002
 
 class CPiranhaplant : public CGameObject
 {
@@ -16,6 +20,10 @@ protected:
 	float ax;
 	float ay;
 	int maxheight = 32;
+
+	bool _isPlayerInRange;
+	RECT boundary;
+
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -24,6 +32,7 @@ protected:
 
 	virtual int IsCollidable() { return 1; };
 	virtual void OnNoCollision(DWORD dt);
+
 	//virtual int isNoBypass() { return 0; };
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	//virtual void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
@@ -31,4 +40,5 @@ protected:
 public:
 	CPiranhaplant(float x, float y);
 	virtual void SetState(int state);
+	virtual void ComparePlayerPosToSelf(CMario* mario);
 };

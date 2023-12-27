@@ -7,6 +7,7 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = KOOPA_GRAVITY;
+
 	shell_start = -1;
 	SetState(KOOPA_STATE_WALKING_LEFT);
 	shell = 0;
@@ -14,6 +15,8 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	revive = 0;
 	state_revive = KOOPA_STATE_WALKING_LEFT;
 	y_save = y;
+
+	//tail = new CTail(x, y);
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -38,8 +41,6 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void CKoopa::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
-	float vy_before = vy;
-	if (vy_before < vy) DebugOut(L">>> bị rớt >>> \n");
 	y += vy * dt;
 };
 

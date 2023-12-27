@@ -171,7 +171,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case  OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaplant(x, y); break;
 
-	case  OBJECT_TYPE_FIREBALL: obj = new CFireball(x, y); break;
+	//case  OBJECT_TYPE_FIREBALL: obj = new CFireball(x, y); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -296,6 +296,7 @@ void CPlayScene::Update(DWORD dt)
 		{
 		case OBJECT_TYPE_PIRANHAPLANT:
 			{
+				// tạo fireball
 				CPiranhaplant* pplant = dynamic_cast<CPiranhaplant*>(object);
 				pplant->ComparePlayerPosToSelf(mario);
 				int x_plant = pplant->GetX();
@@ -313,8 +314,6 @@ void CPlayScene::Update(DWORD dt)
 								pplant->firstshot = 0;
 								pplant->StartCoolDown();
 							}
-							//CFireball* fireball = new CFireball(x_plant, y_plant + 3);
-							//DebugOut(L">>> tao ra fireball %f ,%f>>> \n", fireball->GetX(),fireball->GetY());
 							if (pplant->IsOnCoolDown() && GetTickCount64() - pplant->cooldown_start > TIME_FIRE)
 							{
 								objects.push_back(pplant->CreateFireball(x_plant, y_plant - 2));
@@ -334,8 +333,6 @@ void CPlayScene::Update(DWORD dt)
 								pplant->firstshot = 0;
 								pplant->StartCoolDown();
 							}
-							//CFireball* fireball = new CFireball(x_plant, y_plant + 3);
-							//DebugOut(L">>> tao ra fireball %f ,%f>>> \n", fireball->GetX(),fireball->GetY());
 							if (pplant->IsOnCoolDown() && GetTickCount64() - pplant->cooldown_start > TIME_FIRE)
 							{
 								objects.push_back(pplant->CreateFireball(x_plant, y_plant - 2));
@@ -350,12 +347,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 		object->Update(dt, &coObjects);
 	}
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		CGameObject* object = objects.at(i);
-		if(object->GetObjectType()==10)
-			DebugOut(L">>> tao ra fireball>>> \n");
-	}
+
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 

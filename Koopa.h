@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Tail.h"
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_SPINNING 0.02f
@@ -26,6 +27,7 @@
 class CKoopa : public CGameObject
 {
 protected:
+	//CTail* tail;
 	float ax;
 	float ay;
 

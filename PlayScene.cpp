@@ -300,21 +300,49 @@ void CPlayScene::Update(DWORD dt)
 				pplant->ComparePlayerPosToSelf(mario);
 				int x_plant = pplant->GetX();
 				int y_plant = pplant->GetY();
-				if (pplant->_isPlayerInRange == true)
+				if (pplant->isPlayerInRange == true)
 				{
 					if (x_plant - mario->GetX() < 0.0f)
 					{
 						pplant->SetState(PPLANT_LEFT);
+						if (y_plant >= 126 && y_plant <= 135)
+						{
+							if (pplant->firstshot == 1)
+							{
+								objects.push_back(pplant->CreateFireball(x_plant, y_plant - 2));
+								pplant->firstshot = 0;
+								pplant->StartCoolDown();
+							}
+							//CFireball* fireball = new CFireball(x_plant, y_plant + 3);
+							//DebugOut(L">>> tao ra fireball %f ,%f>>> \n", fireball->GetX(),fireball->GetY());
+							if (pplant->IsOnCoolDown() && GetTickCount64() - pplant->cooldown_start > TIME_FIRE)
+							{
+								objects.push_back(pplant->CreateFireball(x_plant, y_plant - 2));
+								DebugOut(L">>> tao ra fireball %f >>> \n",y_plant);
+								pplant->StartCoolDown();
+							}
+						}
 					}
 					else
 					{
 						pplant->SetState(PPLANT_RIGHT);
-					}
-					if (y_plant >= 126 && y_plant <= 145)
-					{
-						CFireball* fireball = new CFireball(x_plant, y_plant + 3);
-						DebugOut(L">>> tao ra fireball %f ,%f>>> \n", fireball->GetX(),fireball->GetY());
-						objects.push_back(fireball);
+						if (y_plant >= 126 && y_plant <= 135)
+						{
+							if (pplant->firstshot == 1)
+							{
+								objects.push_back(pplant->CreateFireball(x_plant, y_plant - 2));
+								pplant->firstshot = 0;
+								pplant->StartCoolDown();
+							}
+							//CFireball* fireball = new CFireball(x_plant, y_plant + 3);
+							//DebugOut(L">>> tao ra fireball %f ,%f>>> \n", fireball->GetX(),fireball->GetY());
+							if (pplant->IsOnCoolDown() && GetTickCount64() - pplant->cooldown_start > TIME_FIRE)
+							{
+								objects.push_back(pplant->CreateFireball(x_plant, y_plant - 2));
+								DebugOut(L">>> tao ra fireball: %f >>> \n", pplant->GetY());
+								pplant->StartCoolDown();
+							}
+						}
 					}
 				}
 				break;

@@ -4,8 +4,8 @@
 
 CPiranhaplant::CPiranhaplant(float x, float y) :CGameObject(x, y)
 {
-	this->ax = 0;
-	this->ay = PPLANT_GRAVITY;
+	ay = PPLANT_GRAVITY;
+	y_start = y;
 	state = PPLANT_RIGHT;
 	//rect để check player 
 	boundary.left = x - PPLANT_BBOX_WIDTH * 5.0f;
@@ -13,13 +13,24 @@ CPiranhaplant::CPiranhaplant(float x, float y) :CGameObject(x, y)
 	boundary.right = x + PPLANT_BBOX_WIDTH * 5.0f;
 	boundary.bottom = y + PPLANT_BBOX_HEIGHT * 4.0f;
 
-	_isPlayerInRange = false;
+	cooldown_start = 10;
+	cooldown_time = 500;
+	firstshot = 1;
+	isPlayerInRange = false;
 	objectType = 9;
 }
 
 CFireball* CPiranhaplant::CreateFireball(float x, float y)
 {
 	CFireball* obj = new CFireball(x, y);
+	if (state == PPLANT_LEFT)
+	{
+		obj->SetState(FIREBALL_RIGHT);
+	}
+	else
+	{
+		obj->SetState(FIREBALL_LEFT);
+	}
 	return obj;
 }
 
@@ -33,7 +44,7 @@ void CPiranhaplant::GetBoundingBox(float& left, float& top, float& right, float&
 
 void CPiranhaplant::OnNoCollision(DWORD dt)
 {
-	y -= vy * dt;
+	y += vy * dt;
 };
 
 void CPiranhaplant::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -54,6 +65,15 @@ void CPiranhaplant::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 }
 
+bool CPiranhaplant::IsOnCoolDown()
+{
+	return cooldown_start != 0;
+}
+
+void CPiranhaplant::StartCoolDown() {
+	cooldown_start = GetTickCount64();
+}
+
 void CPiranhaplant::ComparePlayerPosToSelf(CMario* mario)
 {
 	if (mario->GetX() >= boundary.left &&
@@ -61,10 +81,10 @@ void CPiranhaplant::ComparePlayerPosToSelf(CMario* mario)
 		mario->GetX()<= boundary.right &&
 		mario->GetY() <= boundary.bottom)
 	{
-		_isPlayerInRange = true;
+		isPlayerInRange = true;
 	}
 	else {
-		_isPlayerInRange = false;
+		isPlayerInRange = false;
 	}
 }
 
@@ -72,20 +92,12 @@ void CPiranhaplant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (y > 145)
 	{
-		//DebugOut(L">>> Y luc doi chieu : %f >>> \n", y);
-		vy += ay * dt;
+		vy -= ay * dt;
 	}
 	else
 	{
-		//DebugOut(L">>> ban o vi tri : %f >>> \n", y);
-		vy -= ay * dt;
+		vy += ay * dt;
 	}
-
-	//for (UINT i = 0; i < coObjects->size(); i++)
-	//{
-		//if(coObjects->at(i)==)
-	//}
-	//CMario* mario = dynamic_cast<CMario*>(e->obj);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -107,4 +119,15 @@ void CPiranhaplant::Render()
 void CPiranhaplant::SetState(int state)
 {
 	CGameObject::SetState(state);
+	switch (state)
+	{
+		case PPLANT_LEFT:
+			ay = PPLANT_GRAVITY;
+			break;
+		case PPLANT_RIGHT:
+			ay = PPLANT_GRAVITY;
+			break;
+		case PPLANT_IDLE:
+			break;
+	}
 }

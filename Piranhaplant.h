@@ -11,17 +11,18 @@
 #define PPLANT_BBOX_WIDTH 16
 #define PPLANT_BBOX_HEIGHT 32
 
+#define PPLANT_IDLE 0
 #define PPLANT_RIGHT 10
 #define PPLANT_LEFT 20
 #define ID_ANI_PPLANT_RIGHT 6001
 #define ID_ANI_PPLANT_LEFT 6002
+#define TIME_FIRE 2000
 
 class CPiranhaplant : public CGameObject
 {
 protected:
-	float ax;
 	float ay;
-	int maxheight = 32;
+	int y_start;
 
 	RECT boundary;
 	//bool isfired;
@@ -39,14 +40,18 @@ protected:
 	//virtual void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 
 public:
-	bool _isPlayerInRange;
+	ULONGLONG cooldown_start;
+	ULONGLONG cooldown_time;
+
+	bool isPlayerInRange;
+	bool IsOnCoolDown();
+	void StartCoolDown();
+	bool firstshot;
 
 	CPiranhaplant(float x, float y);
 
 	CFireball* CreateFireball(float x, float y);
 
 	virtual void SetState(int state);
-	//virtual void SetFire();
-	//virtual void GetFire();
 	virtual void ComparePlayerPosToSelf(CMario* mario);
 };

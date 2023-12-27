@@ -2,7 +2,8 @@
 
 CFireball::CFireball(float x, float y) : CGameObject(x, y) 
 {
-	ax = PIRANHAPLANT_FIREBALL_SPEED;
+	state = FIREBALL_LEFT;
+	vx = PIRANHAPLANT_FIREBALL_SPEED;
 	ay = FIREBALL_GRAVITY;
 	objectType = 10;
 	start = GetTickCount64();
@@ -29,7 +30,6 @@ void CFireball::OnCollisionWith(LPCOLLISIONEVENT e)
 void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
-	vx += ax * dt;
 	if(GetTickCount64() - start > FIREBALL_TIMEOUT)
 	{
 		isDeleted = true;
@@ -45,4 +45,18 @@ void CFireball::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y - COIN_BBOX_HEIGHT / 2;
 	r = l + COIN_BBOX_WIDTH;
 	b = t + COIN_BBOX_HEIGHT;
+}
+
+void CFireball::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case FIREBALL_LEFT:
+		vx = -vx;
+		break;
+	case FIREBALL_RIGHT:
+		break;
+	}
+
 }

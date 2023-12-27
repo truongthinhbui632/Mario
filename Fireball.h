@@ -4,9 +4,10 @@
 #include "Animations.h"
 
 #define PIRANHAPLANT_FIREBALL_SPEED 0.05f
-#define FIREBALL_GRAVITY 0.002f
+#define FIREBALL_GRAVITY 0.00002f
 #define ID_ANI_FIREBALL 8000
-
+#define FIREBALL_LEFT -1
+#define FIREBALL_RIGHT 1
 #define	COIN_WIDTH 9
 
 #define COIN_BBOX_WIDTH 9
@@ -24,6 +25,7 @@ public:
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void SetState(int state);
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);

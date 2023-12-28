@@ -35,8 +35,8 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	virtual void AddObjectToScene(CGameObject* obj);
-
+	virtual CGameObject* FindObject(int object_type);
+	
 	LPGAMEOBJECT GetPlayer() { return player; }
 	static CPlayScene* GetInstance() { 
 		if (instance == nullptr)

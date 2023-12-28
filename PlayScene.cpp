@@ -123,7 +123,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_KOOPA: obj = new CKoopa(x, y); break;
+	case OBJECT_TYPE_KOOPA:
+	{
+		obj = new CKoopa(x, y);
+		CKoopa* koopa = dynamic_cast<CKoopa*>(obj);
+		CTail* tail = koopa->CreateTail(koopa->GetX(), koopa->GetY());
+		objects.push_back(tail);
+		break;
+	}
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 	case OBJECT_TYPE_MISC: {
@@ -170,7 +177,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTIONBRICK: obj = new CQuestionBrick(x, y); break;
 
 	case  OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaplant(x, y); break;
-
 	//case  OBJECT_TYPE_FIREBALL: obj = new CFireball(x, y); break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -344,10 +350,61 @@ void CPlayScene::Update(DWORD dt)
 				}
 				break;
 			}
+		case OBJECT_TYPE_KOOPA:
+			{
+				CKoopa* koopa = dynamic_cast<CKoopa*>(object);
+				if (koopa->GetState() == KOOPA_STATE_WALKING_LEFT || 
+					koopa->GetState() == KOOPA_STATE_WALKING_RIGHT || 
+					koopa->GetState()==KOOPA_STATE_DIE)
+				{
+					//CTail* tail = dynamic_cast<CTail*>(FindObject(OBJECT_TYPE_TAIL));
+					//tail = koopa->CreateTail(koopa->GetX(), koopa->GetY());
+					//if (tail->GetVy() != 0)
+						//{
+							//koopa->ChangeDirection();
+							//tail->Respawn(koopa);
+						//}
+					/*
+					if (tail == NULL)
+					{
+						tail = koopa->CreateTail(koopa->GetX(),koopa->GetY());
+						objects.push_back(tail);
+					}
+					else
+					{
+						if (tail->isOnPlatform == false)
+						{
+							koopa->ChangeDirection();
+							tail->Respawn(koopa);
+						}
+					}
+					*/
+				}
+				else 
+				{
+					CTail* tail = dynamic_cast<CTail*>(FindObject(OBJECT_TYPE_TAIL));
+					if (tail == NULL)
+					{
+						break;
+					}
+					else
+					{
+						tail->Delete();
+					}
+				}
+				break;
+			}
 		}
 		object->Update(dt, &coObjects);
 	}
-
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		CGameObject* object = objects.at(i);
+		if (object->GetObjectType() == 11)
+		{
+			//DebugOut(L">>> tao ra tail ");
+		}
+	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
@@ -424,7 +481,15 @@ void CPlayScene::PurgeDeletedObjects()
 		objects.end());
 }
 
-void CPlayScene::AddObjectToScene(CGameObject* obj)
+CGameObject* CPlayScene::FindObject(int object_type)
 {
-	objects.push_back(obj);
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		CGameObject* object = objects.at(i);
+		if (object->GetObjectType() == object_type)
+		{
+			return object;
+		}
+	}
+	return NULL;
 }

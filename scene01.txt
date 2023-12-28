@@ -19,7 +19,6 @@ tail.txt
 
 #piranhaplant
 9	368	164	80001
-
 #Misc
 
 #bush1	
@@ -245,7 +244,7 @@ tail.txt
 4	140	120
 
 #Koopa
-3	600	140
+3	575	140
 
 #Goomba
 2	250	10

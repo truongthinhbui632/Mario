@@ -27,7 +27,6 @@
 class CKoopa : public CGameObject
 {
 protected:
-	//CTail* tail;
 	float ax;
 	float ay;
 
@@ -45,8 +44,6 @@ protected:
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return shell; };
 
-	virtual void ChangeDirection();
-
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -56,7 +53,10 @@ public:
 	virtual void SetState(int state);
 	virtual void SetIsDeleted(bool xoa);
 	virtual void SetStateBeforeShell(int state_revive, int y_save);
-	virtual void setDirection(int direction) { this->direction = direction; };
 
+	virtual void setDirection(int direction) { this->direction = direction; };
+	virtual void ChangeDirection();
+
+	CTail* CreateTail(float x, float y);
 	virtual int getY() { return y; };
 };

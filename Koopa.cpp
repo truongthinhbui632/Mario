@@ -15,8 +15,7 @@ CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
 	revive = 0;
 	state_revive = KOOPA_STATE_WALKING_LEFT;
 	y_save = y;
-
-	//tail = new CTail(x, y);
+	objectType = 3;
 }
 
 void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -40,8 +39,21 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CKoopa::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
+	if (vy == 0)
+	{
+		x += vx * dt;
+	}
+	else 
+	{
+		if (state == KOOPA_STATE_WALKING_LEFT || state == KOOPA_STATE_WALKING_RIGHT)
+		{
+			ChangeDirection();
+		}
+		else
+		{
+			x += vx * dt; y += vy * dt;
+		}
+	}
 };
 
 void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -87,12 +99,12 @@ void CKoopa::ChangeDirection()
 	if (state == KOOPA_STATE_WALKING_LEFT)
 	{
 		SetState(KOOPA_STATE_WALKING_RIGHT);
-		DebugOut(L">>> di phai >>> \n");
+		//DebugOut(L">>> di phai >>> \n");
 	}
 	else if (state == KOOPA_STATE_WALKING_RIGHT)
 	{
 		SetState(KOOPA_STATE_WALKING_LEFT);
-		DebugOut(L">>> di trai >>> \n");
+		//DebugOut(L">>> di trai >>> \n");
 	}
 }
 
@@ -192,4 +204,20 @@ void CKoopa::SetStateBeforeShell(int state_revive, int y_save)
 {
 	this->state_revive = state_revive;
 	this->y_save = y_save;
+}
+
+CTail* CKoopa::CreateTail(float x, float y) 
+{
+	CTail* tail= NULL;
+	if (this->GetState() == KOOPA_STATE_WALKING_LEFT)
+	{
+		tail = new CTail(x - 5, y+14);
+		tail->SetVx(-KOOPA_WALKING_SPEED);
+	}
+	else if (this->GetState() == KOOPA_STATE_WALKING_RIGHT)
+	{
+		tail = new CTail(x + 21, y+14);
+		tail->SetVx(KOOPA_WALKING_SPEED);
+	}
+	return tail;
 }

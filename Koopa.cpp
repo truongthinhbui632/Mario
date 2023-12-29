@@ -33,8 +33,8 @@ void CKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	{
 		left = x - KOOPA_BBOX_WIDTH / 2;
 		top = y - KOOPA_BBOX_HEIGHT / 2;
-		right = left + KOOPA_BBOX_WIDTH;
-		bottom = top + KOOPA_BBOX_HEIGHT;
+		right = left + KOOPA_BBOX_WIDTH-1;
+		bottom = top + KOOPA_BBOX_HEIGHT-1;
 	}
 }
 
@@ -212,7 +212,7 @@ void CKoopa::SetState(int state)
 		break;
 	case KOOPA_STATE_SPIN:
 		vx = KOOPA_SPINNING_SPEED*direction;
-		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2 - 6;
+		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_HEIGHT_DIE) / 2 - 7;
 		//ax = KOOPA_SPINNING;
 		break;
 	}

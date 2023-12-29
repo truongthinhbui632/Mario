@@ -196,9 +196,9 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 	{
 		DebugOut(L">>> Va cham gach >>> \n");
 		DebugOut(L">>> state: %d >>> \n", idvc);
-		if (idvc == ID_ANI_QUESTIONBRICK)
+		if (idvc == QUESTIONBRICK_ON)
 		{
-			qbrick->SetState(ID_ANI_QUESTIONBRICKBREAK);
+			qbrick->SetState(QUESTIONBRICK_OFF);
 			idvc = qbrick->GetState();
 			DebugOut(L">>> state sau va cham : %d >>> \n", idvc);
 		}
@@ -208,20 +208,18 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPiranhaplant(LPCOLLISIONEVENT e)
 {
 	//CPiranhaplant* pplant = dynamic_cast<CPiranhaplant*>(e->obj);
-	if (e->ny != 0)
+
+	if (untouchable == 0)
 	{
-		if (untouchable == 0)
+		if (level > MARIO_LEVEL_SMALL)
 		{
-			if (level > MARIO_LEVEL_SMALL)
-			{
-				level = MARIO_LEVEL_SMALL;
-				StartUntouchable();
-			}
-			else
-			{
-				DebugOut(L">>> Mario DIE >>> \n");
-				SetState(MARIO_STATE_DIE);
-			}
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
 		}
 	}
 }

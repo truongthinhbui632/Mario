@@ -1,11 +1,15 @@
 #pragma once
 #include "Brick.h"
+
+#define QUESTIONBRICK_ON 10
+#define QUESTIONBRICK_OFF 20
 #define ID_ANI_QUESTIONBRICK 10001
 #define ID_ANI_QUESTIONBRICKBREAK 10002
+
 class CQuestionBrick : public CBrick {
 public:
 	CQuestionBrick(float x, float y) : CBrick(x, y) { 
-		state = ID_ANI_QUESTIONBRICK;
+		state = QUESTIONBRICK_ON;
 		objectType = 8;
 	}
 	void Render();

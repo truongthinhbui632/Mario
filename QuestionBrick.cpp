@@ -4,12 +4,14 @@ void CQuestionBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
-	if (state == ID_ANI_QUESTIONBRICK)
+
+	if (state == QUESTIONBRICK_ON)
 		aniId = ID_ANI_QUESTIONBRICK;
-	else if (state == ID_ANI_QUESTIONBRICKBREAK)
+	else if (state == QUESTIONBRICK_OFF)
 		aniId = ID_ANI_QUESTIONBRICKBREAK;
+
 	animations->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CQuestionBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

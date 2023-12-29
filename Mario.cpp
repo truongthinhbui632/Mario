@@ -71,7 +71,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPiranhaplant(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireball(e);
-	else if (dynamic_cast<CMushroom*>(e->obj))
+	else if (dynamic_cast<CMushroom*>(e->obj)&& e->obj->GetState() != MUSHROOM_INVISIBLE)
 		OnCollisionWithMushroom(e);
 }
 

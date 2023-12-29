@@ -18,20 +18,26 @@ class CMushroom : public CGameObject {
 public:
 	float ax;
 	float ay;
+	int collidable;
 
 	CMushroom(float x, float y) : CGameObject(x, y) {
 		state = MUSHROOM_INVISIBLE;
 		ax = 0;
 		ay = 0;
+		collidable = 1;
 		objectType = 12;
 	}
 	virtual int IsCollidable() { return 1; };
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
+	
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
+	int IsBlocking() { return 0; }
+
 	void SetState(int state);
+	void SetIsCollidable(int collidable) { this->collidable = collidable; };
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };

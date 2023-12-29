@@ -49,16 +49,19 @@ void CMushroom::SetState(int state)
 	case MUSHROOM_INVISIBLE:
 		vx = 0;
 		vy = 0;
+		this->SetIsCollidable(1);
 		break;
 	case MUSHROOM_APPEAR_RIGHT:
 		vx = MUSHROOM_MOVE_SPEED;
 		y -= 2;
 		ay = MUSHROOM_GRAVITY;
+		this->SetIsCollidable(1);
 		break;
 	case MUSHROOM_APPEAR_LEFT:
 		vx = -MUSHROOM_MOVE_SPEED;
 		y -= 2;
 		ay = MUSHROOM_GRAVITY;
+		this->SetIsCollidable(1);
 		break;
 	}
 }

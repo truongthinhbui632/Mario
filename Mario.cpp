@@ -61,7 +61,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopa(e);
 	else if((dynamic_cast<CKoopa*>(e->obj) && e->obj->GetState() == KOOPA_STATE_DIE))
 		OnCollisionWithKoopaShell(e);
-	else if (dynamic_cast<CCoin*>(e->obj))
+	else if (dynamic_cast<CCoin*>(e->obj) && e->obj->GetState() != COIN_INVISIBLE)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);

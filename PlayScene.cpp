@@ -424,6 +424,27 @@ void CPlayScene::Update(DWORD dt)
 		case OBJECT_TYPE_COIN:
 			{
 				CCoin* coin = dynamic_cast<CCoin*>(object);
+				//tìm questionbrick
+				for (size_t i = 0; i < objects.size(); i++)
+				{
+					CGameObject* obj = objects.at(i);
+					if (obj->GetObjectType() == 8)
+					{
+						CQuestionBrick* qbrick = dynamic_cast<CQuestionBrick*>(obj);
+						if (qbrick->GetX() == coin->GetX() && coin->GetState() != COIN_APPEAR)
+						{
+							if (qbrick->GetState() == QUESTIONBRICK_ON)
+							{
+								coin->SetState(COIN_INVISIBLE);
+							}
+							else if (qbrick->GetState() == QUESTIONBRICK_OFF)
+							{
+								coin->SetState(COIN_APPEAR);
+								mario->IncreaseCoinBy1();
+							}
+						}
+					}
+				}
 				break;
 			}
 		}

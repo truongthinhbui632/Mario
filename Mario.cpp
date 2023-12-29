@@ -11,6 +11,7 @@
 #include "QuestionBrick.h"
 #include "Piranhaplant.h"
 #include "Fireball.h"
+#include "Mushroom.h"
 
 #include "Collision.h"
 
@@ -70,6 +71,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPiranhaplant(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireball(e);
+	else if (dynamic_cast<CMushroom*>(e->obj))
+		OnCollisionWithMushroom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -202,6 +205,11 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			idvc = qbrick->GetState();
 			DebugOut(L">>> state sau va cham : %d >>> \n", idvc);
 		}
+		if (nx > 0)
+		{
+			int direction = -1;
+			qbrick->SetDirection(direction);
+		}
 	}
 }
 
@@ -241,6 +249,22 @@ void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e)
 			SetState(MARIO_STATE_DIE);
 		}
 	}
+}
+
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	if (level == MARIO_LEVEL_SMALL)
+	{
+		level = MARIO_LEVEL_BIG;
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+		e->obj->Delete();
+	}
+	else
+	{
+		e->obj->Delete();
+		coin+=100;
+	}
+
 }
 
 //void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e){}

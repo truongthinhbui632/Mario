@@ -406,11 +406,15 @@ void CPlayScene::Update(DWORD dt)
 					CGameObject* obj = objects.at(i);
 					if (obj->GetObjectType() == 8)
 					{
-						if (obj->GetX() == mushroom->GetX())
+						CQuestionBrick*	qbrick = dynamic_cast<CQuestionBrick*>(obj);
+						if (qbrick->GetX() == mushroom->GetX())
 						{
-							if (obj->GetState() == QUESTIONBRICK_OFF)
+							if (qbrick->GetState() == QUESTIONBRICK_OFF)
 							{
-								mushroom->SetState(MUSHROOM_APPEAR);
+								if(qbrick->GetDirection()== 1 )
+									mushroom->SetState(MUSHROOM_APPEAR_LEFT);
+								else if(qbrick->GetDirection() == -1)
+									mushroom->SetState(MUSHROOM_APPEAR_RIGHT);
 							}
 						}
 					}

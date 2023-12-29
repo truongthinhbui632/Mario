@@ -159,6 +159,7 @@
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MiscObject.h" />
+    <ClInclude Include="Mushroom.h" />
     <ClInclude Include="PanelPlatform.h" />
     <ClInclude Include="Piranhaplant.h" />
     <ClInclude Include="Platform.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MiscObject.cpp" />
+    <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="PanelPlatform.cpp" />
     <ClCompile Include="Piranhaplant.cpp" />
     <ClCompile Include="Platform.cpp" />

@@ -15,6 +15,7 @@
 #include "Piranhaplant.h"
 #include "Koopa.h"
 #include "Fireball.h"
+#include "Mushroom.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -177,7 +178,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTIONBRICK: obj = new CQuestionBrick(x, y); break;
 
 	case  OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaplant(x, y); break;
-	//case  OBJECT_TYPE_FIREBALL: obj = new CFireball(x, y); break;
+	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(x, y); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -350,6 +351,7 @@ void CPlayScene::Update(DWORD dt)
 				}
 				break;
 			}
+
 		case OBJECT_TYPE_KOOPA:
 			{
 				CKoopa* koopa = dynamic_cast<CKoopa*>(object);
@@ -390,6 +392,27 @@ void CPlayScene::Update(DWORD dt)
 					else
 					{
 						tail->Delete();
+					}
+				}
+				break;
+			}
+
+		case OBJECT_TYPE_MUSHROOM:
+			{
+				CMushroom* mushroom = dynamic_cast<CMushroom*>(object);
+				//tìm questionbrick
+				for (size_t i = 0; i < objects.size(); i++)
+				{
+					CGameObject* obj = objects.at(i);
+					if (obj->GetObjectType() == 8)
+					{
+						if (obj->GetX() == mushroom->GetX())
+						{
+							if (obj->GetState() == QUESTIONBRICK_OFF)
+							{
+								mushroom->SetState(MUSHROOM_APPEAR);
+							}
+						}
 					}
 				}
 				break;

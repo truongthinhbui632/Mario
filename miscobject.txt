@@ -92,5 +92,11 @@
 #lefthorizontal16x8
 70058	239	18	254	25	30
 
+#cloud
+#single
+70060	1306	34	1337	56	30
+
+#couple
+70061	1249	34	1296	56	30
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

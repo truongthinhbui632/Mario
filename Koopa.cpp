@@ -1,6 +1,7 @@
 #include "Koopa.h"
 #include "Goomba.h"
 #include "Mario.h"
+#include "QuestionBrick.h"
 #include "debug.h"
 
 CKoopa::CKoopa(float x, float y) :CGameObject(x, y)
@@ -77,6 +78,8 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 		else
 		{
+			if (dynamic_cast<CQuestionBrick*>(e->obj))
+				OnCollisionWithQuestionBrick(e);
 			vx = -vx;
 		}
 	}
@@ -94,6 +97,27 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 }
 
+void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
+{
+	CQuestionBrick* qbrick = dynamic_cast<CQuestionBrick*>(e->obj);
+	int idvc = qbrick->GetState();
+	if (e->nx != 0)
+	{
+		DebugOut(L">>> Va cham gach >>> \n");
+		DebugOut(L">>> state: %d >>> \n", idvc);
+		if (idvc == QUESTIONBRICK_ON)
+		{
+			qbrick->SetState(QUESTIONBRICK_OFF);
+			idvc = qbrick->GetState();
+			DebugOut(L">>> state sau va cham : %d >>> \n", idvc);
+		}
+		if (nx > 0)
+		{
+			int direction = -1;
+			qbrick->SetDirection(direction);
+		}
+	}
+}
 void CKoopa::ChangeDirection() 
 {
 	if (state == KOOPA_STATE_WALKING_LEFT)

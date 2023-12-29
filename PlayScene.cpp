@@ -421,6 +421,11 @@ void CPlayScene::Update(DWORD dt)
 				}
 				break;
 			}
+		case OBJECT_TYPE_COIN:
+			{
+				CCoin* coin = dynamic_cast<CCoin*>(object);
+				break;
+			}
 		}
 		object->Update(dt, &coObjects);
 	}

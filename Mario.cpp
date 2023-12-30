@@ -173,12 +173,14 @@ void CMario::OnCollisionWithKoopaShell(LPCOLLISIONEVENT e)
 		if (nx > 0)
 		{
 			int direction = -1;
+			SetState(MARIO_STATE_KICK_LEFT);
 			koopa->setDirection(direction);
 			koopa->SetState(KOOPA_STATE_SPIN);
 			DebugOut(L">>> day rua phia trai >>> \n");
 		}
 		if (nx < 0)
 		{
+			SetState(MARIO_STATE_KICK_RIGHT);
 			koopa->SetState(KOOPA_STATE_SPIN);
 			DebugOut(L">>> day rua phia phai>>> \n");
 		}
@@ -408,6 +410,20 @@ void CMario::Render()
 		aniId = GetAniIdBig();
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
+	else if (state == MARIO_STATE_KICK_LEFT)
+	{
+		if (level == MARIO_LEVEL_BIG)
+			aniId = ID_ANI_MARIO_KICK_LEFT;
+		else if(level == MARIO_LEVEL_SMALL)
+			aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
+	}
+	else if (state == MARIO_STATE_KICK_RIGHT)
+	{
+		if (level == MARIO_LEVEL_BIG)
+			aniId = ID_ANI_MARIO_KICK_RIGHT;
+		else if (level == MARIO_LEVEL_SMALL)
+			aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
+	}
 
 	animations->Get(aniId)->Render(x, y);
 
@@ -482,6 +498,15 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
+		ax = 0.0f;
+		vx = 0.0f;
+		break;
+
+	case MARIO_STATE_KICK_LEFT:
+		ax = 0.0f;
+		vx = 0.0f;
+		break;
+	case MARIO_STATE_KICK_RIGHT:
 		ax = 0.0f;
 		vx = 0.0f;
 		break;

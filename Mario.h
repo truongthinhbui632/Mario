@@ -24,6 +24,9 @@
 #define MARIO_STATE_WALKING_RIGHT	100
 #define MARIO_STATE_WALKING_LEFT	200
 
+#define MARIO_STATE_KICK_RIGHT	110
+#define MARIO_STATE_KICK_LEFT	120
+
 #define MARIO_STATE_JUMP			300
 #define MARIO_STATE_RELEASE_JUMP    301
 
@@ -59,6 +62,9 @@
 
 #define ID_ANI_MARIO_DIE 999
 
+#define ID_ANI_MARIO_KICK_RIGHT 2100
+#define ID_ANI_MARIO_KICK_LEFT	2101
+
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT 1102
@@ -78,6 +84,8 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
 
+#define ID_ANI_MARIO_SMALL_KICK_RIGHT 2200
+#define ID_ANI_MARIO_SMALL_KICK_LEFT 2201
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -133,10 +141,10 @@ public:
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
+		ay = MARIO_GRAVITY;
 		objectType = 0;
 
-		level = MARIO_LEVEL_BIG;
+		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
